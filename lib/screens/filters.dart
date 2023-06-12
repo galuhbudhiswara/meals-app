@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 // import 'package:meals/screens/tabs.dart';
 // import 'package:meals/widgets/main_drawer.dart';
 
-enum Filter{
+enum Filter {
   glutenFree,
   lactoseFree,
   vegetarian,
@@ -10,22 +11,30 @@ enum Filter{
 }
 
 class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({super.key});
+  const FiltersScreen({super.key, required this.currentFilters});
+
+  final Map<Filter, bool> currentFilters;
 
   @override
-  State<StatefulWidget> createState() {
+  State<FiltersScreen> createState() {
     return _FiltersScreenState();
   }
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  var _gluterFreeFilterSet = false;
-  var _lactoseFreeFilterSet = false; 
+  var _glutenFreeFilterSet = false;
+  var _lactoseFreeFilterSet = false;
   var _vegetarianFilterSet = false;
   var _veganFilterSet = false;
 
-
-
+  @override
+  void initState() {
+    super.initState();
+    _glutenFreeFilterSet = widget.currentFilters[Filter.glutenFree]!;
+    _lactoseFreeFilterSet = widget.currentFilters[Filter.lactoseFree]!;
+    _vegetarianFilterSet = widget.currentFilters[Filter.vegetarian]!;
+    _veganFilterSet = widget.currentFilters[Filter.vegan]!;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +46,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
       //   onSelectScreen: (identifier) {
       //     Navigator.of(context).pop();
       //     if (identifier == 'meals') {
-      //       Navigator.of(context).push(
+      //       Navigator.of(context).pushReplacement(
       //         MaterialPageRoute(
       //           builder: (ctx) => const TabsScreen(),
       //         ),
@@ -48,7 +57,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
       body: WillPopScope(
         onWillPop: () async {
           Navigator.of(context).pop({
-            Filter.glutenFree: _gluterFreeFilterSet,
+            Filter.glutenFree: _glutenFreeFilterSet,
             Filter.lactoseFree: _lactoseFreeFilterSet,
             Filter.vegetarian: _vegetarianFilterSet,
             Filter.vegan: _veganFilterSet,
@@ -58,10 +67,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
         child: Column(
           children: [
             SwitchListTile(
-              value: _gluterFreeFilterSet,
+              value: _glutenFreeFilterSet,
               onChanged: (isChecked) {
                 setState(() {
-                  _gluterFreeFilterSet = isChecked;
+                  _glutenFreeFilterSet = isChecked;
                 });
               },
               title: Text(
@@ -77,10 +86,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     ),
               ),
               activeColor: Theme.of(context).colorScheme.tertiary,
-              contentPadding: const EdgeInsets.only(
-                left: 34,
-                right: 22,
-              ),
+              contentPadding: const EdgeInsets.only(left: 34, right: 22),
             ),
             SwitchListTile(
               value: _lactoseFreeFilterSet,
@@ -102,12 +108,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     ),
               ),
               activeColor: Theme.of(context).colorScheme.tertiary,
-              contentPadding: const EdgeInsets.only(
-                left: 34,
-                right: 22,
-              ),
+              contentPadding: const EdgeInsets.only(left: 34, right: 22),
             ),
-             SwitchListTile(
+            SwitchListTile(
               value: _vegetarianFilterSet,
               onChanged: (isChecked) {
                 setState(() {
@@ -127,12 +130,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     ),
               ),
               activeColor: Theme.of(context).colorScheme.tertiary,
-              contentPadding: const EdgeInsets.only(
-                left: 34,
-                right: 22,
-              ),
+              contentPadding: const EdgeInsets.only(left: 34, right: 22),
             ),
-             SwitchListTile(
+            SwitchListTile(
               value: _veganFilterSet,
               onChanged: (isChecked) {
                 setState(() {
@@ -152,10 +152,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     ),
               ),
               activeColor: Theme.of(context).colorScheme.tertiary,
-              contentPadding: const EdgeInsets.only(
-                left: 34,
-                right: 22,
-              ),
+              contentPadding: const EdgeInsets.only(left: 34, right: 22),
             ),
           ],
         ),
